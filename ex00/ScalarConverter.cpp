@@ -167,15 +167,15 @@ static void convertToInt(double value) {
 }
 
 static void convertToFloat(double value) {
-  float f = static_cast<float>(value);
-  if (std::isnan(f)) {
+  if (std::isnan(value)) {
     std::cout << "float: nanf" << std::endl;
-  } else if (std::isinf(f)) {
-    if (std::signbit(f))
+  } else if (std::isinf(value)) {
+    if (std::signbit(value))
       std::cout << "float: -inff" << std::endl;
     else
       std::cout << "float: +inff" << std::endl;
   } else {
+    float f = static_cast<float>(value);
     std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f"
               << std::endl;
   }
