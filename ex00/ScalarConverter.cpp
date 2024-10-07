@@ -168,8 +168,13 @@ static void convertToInt(double value) {
 
 static void convertToFloat(double value) {
   float f = static_cast<float>(value);
-  if (std::isnan(f) || std::isinf(f)) {
-    std::cout << "float: " << f << "f" << std::endl;
+  if (std::isnan(f)) {
+    std::cout << "float: nanf" << std::endl;
+  } else if (std::isinf(f)) {
+    if (value > 0)
+      std::cout << "float: +inff" << std::endl;
+    else
+      std::cout << "float: -inff" << std::endl;
   } else {
     std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f"
               << std::endl;
