@@ -171,10 +171,10 @@ static void convertToFloat(double value) {
   if (std::isnan(f)) {
     std::cout << "float: nanf" << std::endl;
   } else if (std::isinf(f)) {
-    if (value > 0)
-      std::cout << "float: +inff" << std::endl;
-    else
+    if (std::signbit(f))
       std::cout << "float: -inff" << std::endl;
+    else
+      std::cout << "float: +inff" << std::endl;
   } else {
     std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f"
               << std::endl;
@@ -182,8 +182,13 @@ static void convertToFloat(double value) {
 }
 
 static void convertToDouble(double value) {
-  if (std::isnan(value) || std::isinf(value)) {
-    std::cout << "double: " << value << std::endl;
+  if (std::isnan(value)) {
+    std::cout << "double: nan" << std::endl;
+  } else if (std::isinf(value)) {
+    if (std::signbit(value))
+      std::cout << "double: -inf" << std::endl;
+    else
+      std::cout << "double: +inf" << std::endl;
   } else {
     std::cout << "double: " << std::fixed << std::setprecision(1) << value
               << std::endl;
