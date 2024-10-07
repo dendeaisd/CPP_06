@@ -1,13 +1,23 @@
 #include "ScalarConverter.hpp"
 
+#include <cctype>
 #include <cmath>
 #include <cstddef>
+#include <iomanip>
 #include <iostream>
 #include <limits>
 
 static LiteralType detectType(const std::string &literal);
 static bool isPseudoLiteral(const std::string &literal);
+static bool isCharLiteral(const std::string &literal);
+static bool isIntLiteral(const std::string &literal);
+static bool isFloatLiteral(const std::string &literal);
+static bool isDoubleLiteral(const std::string &literal);
 static void handlePseudoLiterals(const std::string &literal);
+static void convertToChar(double value);
+static void convertToInt(double value);
+static void convertToFloat(double value);
+static void convertToDouble(double value);
 
 void ScalarConverter::convert(const std::string &literal) {
   LiteralType type = detectType(literal);
@@ -46,15 +56,10 @@ void ScalarConverter::convert(const std::string &literal) {
     return;
   }
 
-  // convertToChar(value);
-  // convertToInt(value);
-  // convertToFloat(value);
-  // convertToDouble(value);
-}
-
-static bool isPseudoLiteral(const std::string &literal) {
-  return (literal == "nan" || literal == "nanf" || literal == "+inf" ||
-          literal == "-inf" || literal == "+inff" || literal == "-inff");
+  convertToChar(value);
+  convertToInt(value);
+  convertToFloat(value);
+  convertToDouble(value);
 }
 
 static bool isPseudoLiteral(const std::string &literal) {
@@ -134,4 +139,48 @@ static LiteralType detectType(const std::string &literal) {
     return LiteralType::DOUBLE_TYPE;
 
   return LiteralType::UNKNOWN_TYPE;
+}
+
+static void convertToChar(double value) {
+  if (std::isnan(value) || std::isinf(value) ||
+      value < static_cast<double>(std::numeric_limits<char>::min()) ||
+      value > static_cast<double>(std::numeric_limits<char>::max())) {
+    std::cout << "char: impossible" << std::endl;
+  } else {
+    char c = static_cast<char>(value);
+    if (std::isprint(static_cast<unsigned char>(c)))
+      std::cout << "char: '" << c << "'" << std::endl;
+    else
+      std::cout << "char: Non displayable" << std::endl;
+  }
+}
+
+static void convertToInt(double value) {
+  if (std::isnan(value) || std::isinf(value) ||
+      value < static_cast<double>(std::numeric_limits<int>::min()) ||
+      value > static_cast<double>(std::numeric_limits<int>::max())) {
+    std::cout << "int: impossible" << std::endl;
+  } else {
+    int i = static_cast<int>(value);
+    std::cout << "int: " << i << std::endl;
+  }
+}
+
+static void convertToFloat(double value) {
+  float f = static_cast<float>(value);
+  if (std::isnan(f) || std::isinf(f)) {
+    std::cout << "float: " << f << "f" << std::endl;
+  } else {
+    std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f"
+              << std::endl;
+  }
+}
+
+static void convertToDouble(double value) {
+  if (std::isnan(value) || std::isinf(value)) {
+    std::cout << "double: " << value << std::endl;
+  } else {
+    std::cout << "double: " << std::fixed << std::setprecision(1) << value
+              << std::endl;
+  }
 }
