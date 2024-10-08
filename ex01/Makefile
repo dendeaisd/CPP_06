@@ -1,7 +1,7 @@
 NAME		  :=	convert 
 CC			  :=	c++
 FLAGS		  :=	-Wall -Wextra -Werror -std=c++17
-SRC			  :=	main.cpp ScalarConverter.cpp
+SRC			  :=	main.cpp Functions.cpp
 OBJ			  :=	$(SRC:.cpp=.o)
 
 # Colors
