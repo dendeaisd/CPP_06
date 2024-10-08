@@ -3,8 +3,13 @@
 #include <string>
 
 struct Data {
-	Data(int n, std::string nm, float val) : number(n), name(nm), value(val) {}
-	int number;
-	std::string name;
-	float value;
+  int number;
+  std::string name;
+  float value;
+
+  Data();
+  Data(int nb, std::string nm, float val);
+  Data(const Data &other);
+  Data &operator=(const Data &other);
+	~Data();
 };
