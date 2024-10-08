@@ -17,12 +17,7 @@ BEGIN		  := \033[0G
 all 		  : $(NAME)
 
 $(NAME) 	: $(OBJ)
-	# @python3 anim.py &
-	# @ANIMATION_PID=$$!;
 	@$(CC) $(FLAGS) $(OBJ) -o $(NAME)
-	# @sleep  6.9
-	# @touch stop_animation.txt
-	# @wait $$ANIMATION_PID 2>/dev/null
 
 %.o 		  : %.cpp
 	@$(CC) $(FLAGS) -c $< -o $@
