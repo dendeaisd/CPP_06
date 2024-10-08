@@ -1,7 +1,7 @@
 NAME		  :=	serialize
 CC			  :=	c++
 FLAGS		  :=	-Wall -Wextra -Werror -std=c++17
-SRC			  :=	main.cpp Serializer.cpp
+SRC			  :=	main.cpp Serializer.cpp Data.cpp
 OBJ			  :=	$(SRC:.cpp=.o)
 
 # Colors
