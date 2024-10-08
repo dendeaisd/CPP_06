@@ -112,14 +112,19 @@ static bool isDoubleLiteral(const std::string &literal) {
 
 static void handlePseudoLiterals(const std::string &literal) {
   std::string doubleLit = literal;
-
-  if (literal.back() == 'f')
-    doubleLit.pop_back();
+  double value = 0.0;
+  if (doubleLit == "nan") {
+    value = std::numeric_limits<double>::quiet_NaN();
+  } else if (doubleLit == "+inf" || doubleLit == "+inff") {
+    value = std::numeric_limits<double>::infinity();
+  } else if (doubleLit == "-inf" || doubleLit == "-inff") {
+    value = -std::numeric_limits<double>::infinity();
+  }
 
   std::cout << "char: impossible" << std::endl;
   std::cout << "int: impossible" << std::endl;
-  std::cout << "float: " << literal << std::endl;
-  std::cout << "double: " << doubleLit << std::endl;
+  convertToFloat(value);
+  convertToDouble(value);
 }
 
 static LiteralType detectType(const std::string &literal) {
@@ -167,15 +172,16 @@ static void convertToInt(double value) {
 }
 
 static void convertToFloat(double value) {
-  if (std::isnan(value)) {
+  float f = static_cast<float>(value);
+  if (std::isnan(f)) {
     std::cout << "float: nanf" << std::endl;
-  } else if (std::isinf(value)) {
-    if (std::signbit(value))
+  } else if (std::isinf(f)) {
+    if (std::signbit(f)) {
       std::cout << "float: -inff" << std::endl;
-    else
+    } else {
       std::cout << "float: +inff" << std::endl;
+    }
   } else {
-    float f = static_cast<float>(value);
     std::cout << "float: " << std::fixed << std::setprecision(1) << f << "f"
               << std::endl;
   }
@@ -185,10 +191,11 @@ static void convertToDouble(double value) {
   if (std::isnan(value)) {
     std::cout << "double: nan" << std::endl;
   } else if (std::isinf(value)) {
-    if (std::signbit(value))
+    if (std::signbit(value)) {
       std::cout << "double: -inf" << std::endl;
-    else
+    } else {
       std::cout << "double: +inf" << std::endl;
+    }
   } else {
     std::cout << "double: " << std::fixed << std::setprecision(1) << value
               << std::endl;
