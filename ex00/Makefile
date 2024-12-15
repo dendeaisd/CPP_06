@@ -37,6 +37,7 @@ clean   :
 
 fclean  :
 	@echo "$(UP)$(BEGIN)$(CUT)$(ORANGE)🔥 Full clean, removing executable...$(RESET)"
+	@rm -rf
 	@rm -rf $(OBJDIR)
 	@rm -f $(NAME)
 
